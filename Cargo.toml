@@ -5,6 +5,10 @@ authors = ["Benjamin Faerber"]
 license = "MIT"
 edition = "2021"
 keywords = ["usb", "scale", "weight", "iot", "device"]
+description = "Interact with USB Scales with Rust"
+readme = "README.md"
+homepage = "https://github.com/benfaerber/usb-scale"
+repository = "https://github.com/benfaerber/usb-scale"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
