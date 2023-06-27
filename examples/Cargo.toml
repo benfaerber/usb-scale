@@ -1,0 +1,9 @@
+[package]
+name = "usb_scale_examples"
+version = "0.0.1"
+authors = ["Benjamin Faerber"]
+edition = "2021"
+publish = false
+
+[dependencies]
+usb-scale = { path="../", features = []}
