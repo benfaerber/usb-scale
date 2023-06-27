@@ -1,16 +1,43 @@
-use usb_scale::{
-    Scale,
-    ScaleReading,
-    ScaleStatus,
-    error::{ScaleError, ScaleResult},
-    weight::{Weight, WeightUnit},
-    vendors::FAIRBANKS_SCB_900_SCALE
-};
 
 use std::thread;
 use std::time::Duration;
 
+fn connect_to_scale() {
+    use usb_scale::{Scale, vendors::FAIRBANKS_SCB_900_SCALE};
+
+    match Scale::connect(FAIRBANKS_SCB_900_SCALE) {
+        Ok(scale) => println!("{:?}", scale),
+        Err(err) => println!("Error: {:?}", err),
+    }
+}
+
+fn get_a_reading() {
+    use usb_scale::{Scale, ScaleReading, error::ScaleResult, vendors::FAIRBANKS_SCB_900_SCALE};
+
+    let scale = Scale::connect(FAIRBANKS_SCB_900_SCALE).unwrap();
+    let reading: ScaleResult<ScaleReading> = scale.read();
+    println!("{:?}", reading);
+}
+
+fn use_custom_vendor_info() {
+    use usb_scale::{Scale, vendors::VendorInfo};
+    const FAIRBANKS_VENDOR_ID: u16 = 0x0B67;
+    const FAIRBANKS_SCB_900_PRODUCT_ID: u16 = 0x555E;
+
+    let fairbanks_scb_900 = VendorInfo::new(FAIRBANKS_VENDOR_ID, FAIRBANKS_SCB_900_PRODUCT_ID);
+    let scale = Scale::connect(fairbanks_scb_900).unwrap();
+}
+
 fn main() {
+    use usb_scale::{
+        Scale,
+        ScaleReading,
+        ScaleStatus,
+        error::{ScaleError, ScaleResult},
+        weight::{Weight, WeightUnit},
+        vendors::FAIRBANKS_SCB_900_SCALE
+    };
+
     let mut scale_connection = Scale::connect(FAIRBANKS_SCB_900_SCALE);
 
     loop {

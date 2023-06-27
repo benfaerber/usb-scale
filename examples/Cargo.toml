@@ -6,4 +6,4 @@ edition = "2021"
 publish = false
 
 [dependencies]
-usb-scale = { path="../", features = []}
+usb_scale = { path="../", features = []}

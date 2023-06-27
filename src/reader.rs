@@ -16,6 +16,7 @@ pub(crate) type ByteBuffer = [u8; DATA_SIZE];
 
 const RECONNECT_ATTEMPTS: usize = 50;
 
+#[derive(Debug)]
 pub struct Scale {
     device: HidDevice,
     vendor_info: VendorInfo,
