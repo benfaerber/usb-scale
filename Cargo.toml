@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Benjamin Faerber"]
 license = "MIT"
 edition = "2021"
-keywords = ["usb", "scale", "weight", "unit", "internet-of-things", "iot"]
+keywords = ["usb", "scale", "weight", "iot", "device"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
