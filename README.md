@@ -1,4 +1,4 @@
-# USB Scale [![crates.io](https://img.shields.io/crates/v/usb_scale.svg?icon=rust)](https://crates.io/crates/usb_scale)
+# USB Scale [![crates.io](https://img.shields.io/crates/v/usb_scale.svg?logo=rust)](https://crates.io/crates/usb_scale)
 
 Interact with USB Scales with Rust! Uses the `hidapi` crate to interact with USB devices.
 
