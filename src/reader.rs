@@ -95,16 +95,16 @@ impl Scale {
             vendor_id,
             product_id,
         } = vendor_info;
-        match HidApi::new() {
-            Ok(hid) => match hid.open(vendor_id, product_id) {
-                Ok(device) => Ok(Self {
-                    device,
-                    vendor_info,
-                }),
-                Err(err) => Err(ScaleError::ConnectError(err)),
-            },
-            Err(err) => Err(ScaleError::UsbError(err)),
-        }
+        let hid = HidApi::new()
+            .map_err(|err| ScaleError::UsbError(err))?;
+
+        let device = hid.open(vendor_id, product_id)
+            .map_err(|err| ScaleError::ConnectError(err))?;
+
+        Ok(Self {
+            device,
+            vendor_info,
+        })
     }
 
     pub fn reconnect(&self) -> ScaleResult<Self> {
