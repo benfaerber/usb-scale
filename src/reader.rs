@@ -1,7 +1,7 @@
 use crate::error::{ScaleError, ScaleResult};
 use crate::parser::parse_input_stream;
-use crate::weight::Weight;
 use crate::vendors::VendorInfo;
+use crate::weight::Weight;
 
 use std::fmt;
 use std::thread;
@@ -36,6 +36,7 @@ impl fmt::Display for ScaleReading {
         let weight = match self.weight {
             Some(weight) => weight.to_string(),
             None => "No Reading".to_string(),
+
         };
 
         let msg = format!("{} - {}", self.status, weight);
@@ -81,7 +82,8 @@ impl fmt::Display for ScaleStatus {
             Self::OverWeight => "Over Weight",
             Self::RequiresCalibration => "Requires Calibration",
             Self::RequiresTaring => "Requires Taring",
-        }.to_string();
+        }
+        .to_string();
 
         write!(f, "{}", message)
     }
@@ -89,10 +91,16 @@ impl fmt::Display for ScaleStatus {
 
 impl Scale {
     pub fn connect(vendor_info: VendorInfo) -> ScaleResult<Self> {
-        let VendorInfo { vendor_id, product_id } = vendor_info;
+        let VendorInfo {
+            vendor_id,
+            product_id,
+        } = vendor_info;
         match HidApi::new() {
             Ok(hid) => match hid.open(vendor_id, product_id) {
-                Ok(device) => Ok(Self { device, vendor_info }),
+                Ok(device) => Ok(Self {
+                    device,
+                    vendor_info,
+                }),
                 Err(err) => Err(ScaleError::ConnectError(err)),
             },
             Err(err) => Err(ScaleError::UsbError(err)),
@@ -164,7 +172,7 @@ mod tests {
         assert_eq!(in_motion_pounds_parsed, in_motion_pounds_reading);
 
         // Stable 0.14kg
-        let stable_kilograms_parsed =  parse_input_stream([3, 4, 3, 254, 14, 0]).unwrap();
+        let stable_kilograms_parsed = parse_input_stream([3, 4, 3, 254, 14, 0]).unwrap();
         let stable_kilograms_reading = ScaleReading {
             report_id: 3,
             status: ScaleStatus::Stable,

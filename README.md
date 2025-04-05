@@ -69,28 +69,19 @@ fn main() {
     loop {
         scale_connection = match scale_connection {
             Ok(scale) => {
-                match scale.read() {
-                    Ok(reading) => {
-                        println!("Reading: {}", reading);
-                        // Status: Is the scale Stable, In Motion, Requires Taring, etc
-                        println!("Scale Status: {}", reading.status);
-                        println!("Report ID: {}", reading.report_id);
-                        println!("Data Scaling: {}", reading.data_scaling);
-                        println!("Scale Unit: {:?}", reading.weight.and_then(|w| Some(w.unit)));
+                let reading = scale.read().unwrap();
+                println!("Reading: {}", reading);
+                // Status: Is the scale Stable, In Motion, Requires Taring, etc
+                println!("Scale Status: {}", reading.status);
+                println!("Report ID: {}", reading.report_id);
+                println!("Data Scaling: {}", reading.data_scaling);
+                println!("Scale Unit: {:?}", reading.weight.and_then(|w| Some(w.unit)));
 
-                        let scale_weight_text = match reading.weight {
-                            Some(weight) => weight.to_string(),
-                            None => "No Reading".to_string(),
-                        };
-                        println!("Scale Weight: {}", scale_weight_text);
-                        Ok(scale)
-                    },
-                    Err(err) => {
-                        println!("Could not read scale! {}", err);
-                        println!("Attempting to reconnect...");
-                        scale.reconnect()
-                    }
-                }
+                let scale_weight = reading.weight
+                    .map(|x| x.to_string())
+                    .unwrap_or("No Reading!");
+                println!("Scale Weight: {}", scale_weight_text);
+                Ok(scale)
             },
             Err(err) => {
                 println!("Could not connect to scale! {}", err);
