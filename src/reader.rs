@@ -8,6 +8,7 @@ use std::thread;
 use std::time::Duration;
 
 use hidapi::{HidApi, HidDevice};
+
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
